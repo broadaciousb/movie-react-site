@@ -1,8 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const Results = () => {
+  const [movies, setMovies] = useState([]);
+
+  async function fetchMovies(movieSearch) {
+    const { data } = await axios.get(`https://www.omdbapi.com/?i=tt3896198&apikey=f54b9d83&s=${movieSearch}`)
+    setMovies(data);
+    console.log(movies)
+    console.log(movieSearch);
+  }
+  
+  fetchMovies('fast')
+
+
+  useEffect(() => {
+    
+  }, []);
+
+
   return (
     <>
       <section id="search__page">
@@ -16,7 +34,7 @@ const Results = () => {
               <ul className="nav__links">
                 <li>
                   <Link
-                    to="index.html"
+                    to="/"
                     className="nav__link--white
                 link__hover-effect 
                 link__hover-effect--white"
@@ -60,8 +78,8 @@ const Results = () => {
                 data-search
               ></input>
               <div className="find__movies-search--icon">
-                <Link to="" className="search__button" id="search__button">
-                <FontAwesomeIcon icon="magnifying-glass" className="home__search--icon fa-solid fa-magnifying-glass" />
+                <Link to="" className="search__button" id="search__button" onClick={(event) => fetchMovies(event.target.value)}>
+                  <FontAwesomeIcon icon="magnifying-glass" className="fa-solid fa-magnifying-glass" />
                 </Link>
               </div>
             </div>
@@ -106,7 +124,11 @@ const Results = () => {
       </section>
       <section id="movie__results">
         <div className="result__row">
-          <div className="movie__list"></div>
+          <div className="movie__list">
+            {
+              movies.map(movie => <div>{movie.Title}</div>)
+            }
+          </div>
           <div className="result__overlay--loading">
             <i className="fas fa-spinner"></i>
           </div>
