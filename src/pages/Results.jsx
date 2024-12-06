@@ -1,25 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Results = () => {
   const [movies, setMovies] = useState([]);
-
   async function fetchMovies(movieSearch) {
-    const { data } = await axios.get(`https://www.omdbapi.com/?i=tt3896198&apikey=f54b9d83&s=${movieSearch}`)
-    setMovies(data);
-    console.log(movies)
-    console.log(movieSearch);
+    const { data } = await axios.get(
+      `https://www.omdbapi.com/?i=tt3896198&apikey=f54b9d83&s=${movieSearch}`
+    );
+    setMovies(data.Search);
+    console.log(movies);
   }
-  
-  fetchMovies('fast')
 
-
-  useEffect(() => {
-    
-  }, []);
-
+  useEffect(() => {}, []);
 
   return (
     <>
@@ -28,7 +22,7 @@ const Results = () => {
           <nav>
             <div className="nav__content-wrapper">
               <div className="logo nav__logo--white">
-                <FontAwesomeIcon icon="video" className="fa-solid fa-video"/>
+                <FontAwesomeIcon icon="video" className="fa-solid fa-video" />
                 MovArch
               </div>
               <ul className="nav__links">
@@ -53,7 +47,10 @@ const Results = () => {
                   </Link>
                 </li>
                 <li href="#" onclick="toggleModal()">
-                  <Link to="#" className="nav__contact--white button__hover-effect">
+                  <Link
+                    to="#"
+                    className="nav__contact--white button__hover-effect"
+                  >
                     Contact
                   </Link>
                 </li>
@@ -63,7 +60,7 @@ const Results = () => {
                 className="nav__link--button nav__button--white"
                 onclick="toggleNavModal()"
               >
-                <FontAwesomeIcon icon="bars" className="fa-solid fa-bars"/>
+                <FontAwesomeIcon icon="bars" className="fa-solid fa-bars" />
               </Link>
             </div>
           </nav>
@@ -78,8 +75,18 @@ const Results = () => {
                 data-search
               ></input>
               <div className="find__movies-search--icon">
-                <Link to="" className="search__button" id="search__button" onClick={(event) => fetchMovies(event.target.value)}>
-                  <FontAwesomeIcon icon="magnifying-glass" className="fa-solid fa-magnifying-glass" />
+                <Link
+                  to=""
+                  className="search__button"
+                  id="search__button"
+                  onClick={() => {
+                    fetchMovies("fast");
+                  }}
+                >
+                  <FontAwesomeIcon
+                    icon="magnifying-glass"
+                    className="fa-solid fa-magnifying-glass"
+                  />
                 </Link>
               </div>
             </div>
@@ -125,9 +132,16 @@ const Results = () => {
       <section id="movie__results">
         <div className="result__row">
           <div className="movie__list">
-            {
-              movies.map(movie => <div>{movie.Title}</div>)
-            }
+            {movies.map((movie) => (
+              <div className="movie__wrapper">
+                <div className="movie">
+                  <div className="movie__img--wrapper">
+                    <img src={movie.Poster} alt="" className="movie__img" />
+                  </div>
+                  <h3 className="movie__title">{movie.Title}</h3>
+                </div>
+              </div>
+            ))}
           </div>
           <div className="result__overlay--loading">
             <i className="fas fa-spinner"></i>
@@ -192,7 +206,10 @@ const Results = () => {
             </a>
           </li>
           <li onclick="toggleNavModal()">
-            <a href="./find_movies.html" className="nav__link link__hover-effect">
+            <a
+              href="./find_movies.html"
+              className="nav__link link__hover-effect"
+            >
               Find Movies
             </a>
           </li>
