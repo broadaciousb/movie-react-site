@@ -1,19 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
 const Results = () => {
   const [movies, setMovies] = useState([]);
-  async function fetchMovies(movieSearch) {
+  const searchInputRef = useRef();
+
+  async function fetchMovies() {
+    const movieSearch = searchInputRef.current.value;
+    console.log(movieSearch);
+    if (!movieSearch) return;
+
     const { data } = await axios.get(
       `https://www.omdbapi.com/?i=tt3896198&apikey=f54b9d83&s=${movieSearch}`
     );
-    setMovies(data.Search);
-    console.log(movies);
+    setMovies(data.Search || []);
+    
   }
 
-  useEffect(() => {}, []);
+  
 
   return (
     <>
@@ -73,15 +79,14 @@ const Results = () => {
                 type="text"
                 placeholder="Search by title"
                 data-search
+                ref={searchInputRef}
               ></input>
               <div className="find__movies-search--icon">
                 <Link
                   to=""
                   className="search__button"
                   id="search__button"
-                  onClick={() => {
-                    fetchMovies("fast");
-                  }}
+                  onClick={fetchMovies}
                 >
                   <FontAwesomeIcon
                     icon="magnifying-glass"
@@ -231,4 +236,4 @@ const Results = () => {
   );
 };
 
-export default Results;
+export default Results
