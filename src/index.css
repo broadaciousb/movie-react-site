@@ -318,6 +318,9 @@ header {
 }
 
 .search__btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 200px;
   height: 70px;
   border: none;
