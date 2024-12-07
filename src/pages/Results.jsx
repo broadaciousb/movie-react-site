@@ -6,20 +6,32 @@ import axios from "axios";
 const Results = () => {
   const [movies, setMovies] = useState([]);
   const searchInputRef = useRef();
+  const filterInputRef = useRef();
+  let filter = "";
+
+  function filterMovies() {
+    if (filterInputRef.current.value === "movie") {
+      filter = `&type=movie`;
+    } else if (filterInputRef.current.value === "series") {
+      filter = `&type=series`;
+    } else if (filterInputRef.current.value === "episode") {
+      filter = `&type=episode`;
+    } else {
+      filter = ``;
+    }
+    console.log(filterInputRef.current.value);
+    fetchMovies();
+  }
 
   async function fetchMovies() {
     const movieSearch = searchInputRef.current.value;
-    console.log(movieSearch);
     if (!movieSearch) return;
 
     const { data } = await axios.get(
-      `https://www.omdbapi.com/?i=tt3896198&apikey=f54b9d83&s=${movieSearch}`
+      `https://www.omdbapi.com/?i=tt3896198&apikey=f54b9d83&s=${movieSearch}` + `${filter}`
     );
     setMovies(data.Search || []);
-    
   }
-
-  
 
   return (
     <>
@@ -112,7 +124,8 @@ const Results = () => {
                 name="movies"
                 id="movie_filter"
                 className="movie__filter"
-                onchange="filterMovies(event)"
+                onChange={filterMovies}
+                ref={filterInputRef}
               >
                 <option className="filter__option" value="all">
                   All
@@ -236,4 +249,4 @@ const Results = () => {
   );
 };
 
-export default Results
+export default Results;

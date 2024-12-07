@@ -22,7 +22,7 @@ const Home = () => {
             </li>
             <li>
               <Link
-                to="find_movies.html"
+                to="/results"
                 className="nav__link link__hover-effect"
               >
                 Find Movies
