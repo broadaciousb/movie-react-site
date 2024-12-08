@@ -60,7 +60,7 @@ const Home = ({ isContactModalOpen, isNavModalOpen, openContactModal, closeConta
                 placeholder="Find a good movie"
               ></input>
               <Link
-                to="/find_movies.html"
+                to="/results"
                 id="home-search__button"
                 className="search__btn"
               >
