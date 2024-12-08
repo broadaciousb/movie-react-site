@@ -3,7 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/fontawesome-svg-core";
 import { Link } from "react-router-dom";
 
-const Modal = () => {
+const ContactModal = ({ isOpen, closeModal }) => {
+  if (!isOpen) return null;
+
   return (
     <div id="modal" className="modal">
       <div className="modal__content">
@@ -44,7 +46,7 @@ const Modal = () => {
           </button>
         </form>
       </div>
-      <Link href="#" className="modal__close-button" onClick="">
+      <Link href="#" className="modal__close-button" onClick={closeModal}>
         <FontAwesomeIcon
           icon="times"
           className="fas fa-times"
@@ -54,4 +56,4 @@ const Modal = () => {
   );
 };
 
-export default Modal;
+export default ContactModal;

@@ -3,28 +3,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import HomeCinema from "../assets/undraw_home_cinema_l7yl.svg";
-import Modal from "../ui/Modal.jsx"
+import ContactModal from "../ui/Contact-Modal.jsx";
 
 const Home = () => {
-  const [modalSwitch, setModalSwitch] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  function toggleModal() {
-    if (!modalSwitch) {
-      setModalSwitch(true);
-    }
-    else {
-      setModalSwitch(false);
-    }
-  }
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
 
-  function renderModal() {
-    if (modalSwitch) {
-      return (
-        <Modal />
-      )
-    }
-  }
-
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <>
@@ -45,17 +35,17 @@ const Home = () => {
                 Find Movies
               </Link>
             </li>
-            <li href="#" onClick="toggleModal()">
-              <Link to="#" className="nav__contact button__hover-effect">
+            <li href="#">
+              <Link
+                to="#"
+                className="nav__contact button__hover-effect"
+                onClick={openModal}
+              >
                 Contact
               </Link>
             </li>
           </ul>
-          <Link
-            href="#"
-            className="nav__link--button"
-            onClick={toggleModal}
-          >
+          <Link href="#" className="nav__link--button">
             <FontAwesomeIcon icon="bars" className="fa-solid fa-bars" />
           </Link>
         </div>
@@ -94,11 +84,9 @@ const Home = () => {
           </div>
         </header>
       </div>
-      {renderModal()}
+      <ContactModal isOpen={isModalOpen} closeModal={closeModal} />
     </>
   );
 };
 
 export default Home;
-
-
