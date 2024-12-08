@@ -2,8 +2,18 @@ import React, { useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import ContactModal from "../ui/Contact-Modal";
+import NavModal from "../ui/Nav-Modal";
 
-const Results = () => {
+const Results = ({
+  isContactModalOpen,
+  isNavModalOpen,
+  openContactModal,
+  closeContactModal,
+  openNavModal,
+  closeNavModal,
+}) => {
+
   const [movies, setMovies] = useState([]);
   const searchInputRef = useRef();
   const filterInputRef = useRef();
@@ -28,7 +38,8 @@ const Results = () => {
     if (!movieSearch) return;
 
     const { data } = await axios.get(
-      `https://www.omdbapi.com/?i=tt3896198&apikey=f54b9d83&s=${movieSearch}` + `${filter}`
+      `https://www.omdbapi.com/?i=tt3896198&apikey=f54b9d83&s=${movieSearch}` +
+        `${filter}`
     );
     setMovies(data.Search || []);
   }
@@ -64,19 +75,18 @@ const Results = () => {
                     Find Movies
                   </Link>
                 </li>
-                <li href="#" onclick="toggleModal()">
+                <li href="#">
                   <Link
-                    to="#"
                     className="nav__contact--white button__hover-effect"
+                    onClick={openContactModal}
                   >
                     Contact
                   </Link>
                 </li>
               </ul>
               <Link
-                to="#"
                 className="nav__link--button nav__button--white"
-                onclick="toggleNavModal()"
+                onClick={openNavModal}
               >
                 <FontAwesomeIcon icon="bars" className="fa-solid fa-bars" />
               </Link>
@@ -166,85 +176,12 @@ const Results = () => {
           </div>
         </div>
       </section>
-      <div id="modal" className="modal display-none">
-        <div className="modal__content">
-          <h3 className="modal__title">
-            Do you want your website to look like this one?
-          </h3>
-          <h2 className="modal__sub-title">Please let me know!</h2>
-          <form className="modal__form" onsubmit="contact(event)">
-            <div className="form-item">
-              <label className="form-item__label">Name:</label>
-              <input
-                type="text"
-                className="form__input"
-                name="user_name"
-                required
-              ></input>
-            </div>
-            <div className="form-item">
-              <label className="form-item__label">Email:</label>
-              <input
-                type="email"
-                className="form__input"
-                name="user_email"
-                required
-              ></input>
-            </div>
-            <div className="form-item">
-              <label className="form-item__label">Message:</label>
-              <textarea
-                type="textarea"
-                className="form__textarea"
-                name="message"
-                required
-              ></textarea>
-            </div>
-            <button id="form__submit" className="form__submit">
-              Send it
-            </button>
-          </form>
-        </div>
-        <a href="#" className="modal__close-button" onclick="toggleModal()">
-          <i className="fas fa-times"></i>
-        </a>
-        <div className="modal__overlay display-none">
-          <div className="modal__overlay--container">
-            <h3 className="modal__overlay--caption">
-              Thanks for reaching out! I will contact you soon.
-            </h3>
-          </div>
-        </div>
-      </div>
-      <div className="nav__modal display-none">
-        <ul className="nav__modal--links">
-          <li onclick="toggleNavModal()">
-            <a href="./index.html" className="nav__link link__hover-effect">
-              Home
-            </a>
-          </li>
-          <li onclick="toggleNavModal()">
-            <a
-              href="./find_movies.html"
-              className="nav__link link__hover-effect"
-            >
-              Find Movies
-            </a>
-          </li>
-          <li href="#" onclick="toggleModal()">
-            <a
-              href="#"
-              className="nav__contact button__hover-effect"
-              onclick="toggleNavModal()"
-            >
-              Contact
-            </a>
-          </li>
-          <a href="#" className="nav__modal--close" onclick="toggleNavModal()">
-            <i className="fas fa-times"></i>
-          </a>
-        </ul>
-      </div>
+      <ContactModal isOpen={isContactModalOpen} closeModal={closeContactModal} />
+      <NavModal
+        isOpen={isNavModalOpen}
+        closeNavModal={closeNavModal}
+        openContactModal={openContactModal}
+      />
     </>
   );
 };

@@ -4,17 +4,9 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import HomeCinema from "../assets/undraw_home_cinema_l7yl.svg";
 import ContactModal from "../ui/Contact-Modal.jsx";
+import NavModal from "../ui/Nav-Modal.jsx";
 
-const Home = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+const Home = ({ isContactModalOpen, isNavModalOpen, openContactModal, closeContactModal, openNavModal, closeNavModal }) => {
 
   return (
     <>
@@ -39,13 +31,13 @@ const Home = () => {
               <Link
                 to="#"
                 className="nav__contact button__hover-effect"
-                onClick={openModal}
+                onClick={openContactModal}
               >
                 Contact
               </Link>
             </li>
           </ul>
-          <Link href="#" className="nav__link--button">
+          <Link href="#" className="nav__link--button" onClick={openNavModal}>
             <FontAwesomeIcon icon="bars" className="fa-solid fa-bars" />
           </Link>
         </div>
@@ -84,7 +76,12 @@ const Home = () => {
           </div>
         </header>
       </div>
-      <ContactModal isOpen={isModalOpen} closeModal={closeModal} />
+      <ContactModal isOpen={isContactModalOpen} closeModal={closeContactModal} />
+      <NavModal
+        isOpen={isNavModalOpen}
+        closeNavModal={closeNavModal}
+        openContactModal={openContactModal}
+      />
     </>
   );
 };

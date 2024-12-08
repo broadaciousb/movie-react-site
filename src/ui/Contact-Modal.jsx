@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/fontawesome-svg-core";
 import { Link } from "react-router-dom";
 
+
 const ContactModal = ({ isOpen, closeModal }) => {
   if (!isOpen) return null;
 
