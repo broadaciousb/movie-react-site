@@ -797,7 +797,6 @@ MOVIE RESULTS
   display: flex;
   align-items: center;
   margin: 24px;
-  width: 100%;
 }
 
 .selected-movie__img--wrapper {
@@ -915,6 +914,7 @@ MOVIE RESULTS
 
   .selected-movie__info {
     margin: 0 20px;
+    text-align: center;
   }
 
   .selected-movie__title {

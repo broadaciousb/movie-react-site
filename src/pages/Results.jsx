@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import ContactModal from "../ui/Contact-Modal";
 import NavModal from "../ui/Nav-Modal";
@@ -17,6 +17,7 @@ const Results = ({
   const [movies, setMovies] = useState([]);
   const searchInputRef = useRef();
   const filterInputRef = useRef();
+  let navigate = useNavigate();
   let filter = "";
 
   function filterMovies() {
@@ -42,6 +43,7 @@ const Results = ({
         `${filter}`
     );
     setMovies(data.Search || []);
+    console.log(movies)
   }
 
   return (
@@ -161,7 +163,7 @@ const Results = ({
         <div className="result__row">
           <div className="movie__list">
             {movies.map((movie) => (
-              <div className="movie__wrapper">
+              <div className="movie__wrapper" key={movie.Id} onClick={() => navigate(`${movie.imdbID}`)}>
                 <div className="movie">
                   <div className="movie__img--wrapper">
                     <img src={movie.Poster} alt="" className="movie__img" />
