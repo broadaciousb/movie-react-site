@@ -60,7 +60,7 @@ function App() {
               />
             }
           />
-          <Route path="/movieInfo" element={<Movie />}/>
+          <Route path=":id" element={<Movie />}/>
         </Routes>
       </div>
     </Router>

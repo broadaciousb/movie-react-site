@@ -337,6 +337,7 @@ header {
   top: 5%;
   left: 5%;
   right: 5%;
+  bottom: 5%;
   background-color: #375e97;
   border-radius: 24px;
   overflow: hidden;
@@ -778,6 +779,95 @@ MOVIE RESULTS
   width: 100%;
 }
 
+
+/* SELECTED MOVIE */
+
+.selected-movie__contaier {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: lightgray;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.selected-movie {
+  display: flex;
+  align-items: center;
+  margin: 24px;
+  width: 100%;
+}
+
+.selected-movie__img--wrapper {
+  width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 36px;
+}
+
+.selected-movie__img {
+  max-height: 500px;
+  width: auto;
+  max-width: 100%;
+}
+
+
+.selected-movie__info {
+  display: flex;
+  flex-direction: column;
+}
+
+.selected-movie__title {
+  font-size: 48px;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+
+.movie-detail {
+  margin-bottom: 20px;
+}
+
+.selected-movie__plot {
+  display: flex;
+}
+
+.selected-movie__para {
+  max-width: 800px;
+  font-size: 20px;
+  margin-left: 12px;
+}
+
+.selected-movie__back-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 8px;
+  font-size: 20px;
+  font-weight: bold;
+  background: none;
+  border: 3px solid black;
+  border-radius: 12px;
+}
+
+.selected-movie__back-btn:hover {
+  color:#375e97;
+  background-color: white;
+  border-color:#375e97;
+}
+
+.selected-movie__back-btn:active {
+  background-color: #fb6542;
+}
+
+
+
+
+
+
 /* Small phones, tablets, large smart phones */
 @media (max-width: 768px) {
   .header__title {
@@ -812,6 +902,28 @@ MOVIE RESULTS
 
   .modal__sub-title {
     font-size: 20px;
+  }
+
+  .selected-movie {
+    flex-direction: column;
+  }
+
+  .selected-movie__img--wrapper {
+    margin-right: 0;
+    margin-bottom: 24px;
+  }
+
+  .selected-movie__info {
+    margin: 0 20px;
+  }
+
+  .selected-movie__title {
+    font-size: 36px;
+  }
+
+  .selected-movie__back-btn {
+    position: static;
+    margin-bottom: 20px;
   }
 }
 
@@ -907,6 +1019,14 @@ MOVIE RESULTS
   }
 
   .form__submit {
+    font-size: 20px;
+  }
+
+  .selected-movie__title {
+    font-size: 30px;
+  }
+
+  .movie-detail {
     font-size: 20px;
   }
 }
