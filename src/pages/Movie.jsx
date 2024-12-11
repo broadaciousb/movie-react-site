@@ -6,6 +6,7 @@ import { Link, useParams } from "react-router-dom";
 
 const Movie = () => {
   const [movieInfo, setMovieInfo] = useState([]);
+  const [loading, setLoading] = useState([true]);
 
   const { id } = useParams();
 

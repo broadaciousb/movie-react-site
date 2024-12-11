@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -7,6 +7,14 @@ import ContactModal from "../ui/Contact-Modal.jsx";
 import NavModal from "../ui/Nav-Modal.jsx";
 
 const Home = ({ isContactModalOpen, isNavModalOpen, openContactModal, closeContactModal, openNavModal, closeNavModal }) => {
+
+  const homeSearch = useRef();
+  
+  function onSearchKeyPress(key) {
+    if (key === 'Enter') {
+      
+    }
+  }
 
   return (
     <>
@@ -58,9 +66,11 @@ const Home = ({ isContactModalOpen, isNavModalOpen, openContactModal, closeConta
                 className="search__input"
                 type="text"
                 placeholder="Find a good movie"
+                ref={homeSearch}
               ></input>
               <Link
                 to="/results"
+                state={{homeSearch: `${homeSearch}`}}
                 id="home-search__button"
                 className="search__btn"
               >

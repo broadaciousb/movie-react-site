@@ -1,6 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import ContactModal from "../ui/Contact-Modal";
 import NavModal from "../ui/Nav-Modal";
@@ -13,13 +13,20 @@ const Results = ({
   openNavModal,
   closeNavModal,
 }) => {
-
+  const [loading, setLoading] = useState(false);
   const [movies, setMovies] = useState([]);
   const searchInputRef = useRef();
   const filterInputRef = useRef();
-  let navigate = useNavigate();
+  const navigate = useNavigate();
+  const location = useLocation();
+  //const { homeSearch } = location.state;
+  //console.log({ homeSearch })
   let filter = "";
 
+  useEffect(() => {
+    
+  });
+  
   function filterMovies() {
     if (filterInputRef.current.value === "movie") {
       filter = `&type=movie`;
@@ -30,7 +37,7 @@ const Results = ({
     } else {
       filter = ``;
     }
-    console.log(filterInputRef.current.value);
+
     fetchMovies();
   }
 
@@ -38,12 +45,15 @@ const Results = ({
     const movieSearch = searchInputRef.current.value;
     if (!movieSearch) return;
 
+    setLoading(true);
+
     const { data } = await axios.get(
       `https://www.omdbapi.com/?i=tt3896198&apikey=f54b9d83&s=${movieSearch}` +
         `${filter}`
     );
-    setMovies(data.Search || []);
-    console.log(movies)
+    await setMovies(data.Search || []);
+    setLoading(false);
+    console.log(movies);
   }
 
   return (
@@ -102,8 +112,12 @@ const Results = ({
                 className="search__header-input"
                 type="text"
                 placeholder="Search by title"
-                data-search
                 ref={searchInputRef}
+                onKeyPress={(event) => {
+                  if (event.key === "Enter") {
+                    fetchMovies();
+                  }
+                }}
               ></input>
               <div className="find__movies-search--icon">
                 <Link
@@ -123,7 +137,7 @@ const Results = ({
           <div className="header__background"></div>
         </div>
         <div className="loading__bar">
-          <div className="loading__bar--highlight loading__bar--highlight-right loading__hidden"></div>
+          {loading && (<div className="loading__bar--highlight loading__bar--highlight-right"></div>)}
         </div>
         <div className="container search__container">
           <div className="filter__row">
@@ -156,29 +170,47 @@ const Results = ({
           </div>
         </div>
         <div className="loading__bar">
-          <div className="loading__bar--highlight loading__bar--highlight-left loading__hidden"></div>
+          {loading && (<div className="loading__bar--highlight loading__bar--highlight-left"></div>)}
         </div>
       </section>
       <section id="movie__results">
         <div className="result__row">
           <div className="movie__list">
-            {movies.map((movie) => (
-              <div className="movie__wrapper" key={movie.Id} onClick={() => navigate(`${movie.imdbID}`)}>
-                <div className="movie">
-                  <div className="movie__img--wrapper">
-                    <img src={movie.Poster} alt="" className="movie__img" />
+            {loading
+              ? (new Array(10).fill(0).map((_, index) => (
+                  <div className="movie__wrapper" key={index}>
+                    <div className="movie">
+                      <div className="movie__img--wrapper">
+                        <div className="movie__img--skeleton"></div>
+                      </div>
+                      <div className="movie__title--skeleton"></div>
+                    </div>
                   </div>
-                  <h3 className="movie__title">{movie.Title}</h3>
-                </div>
-              </div>
-            ))}
+              )))
+              : (movies.map((movie) => (
+                  <div
+                    className="movie__wrapper"
+                    key={movie.Id}
+                    onClick={() => navigate(`${movie.imdbID}`)}
+                  >
+                    <div className="movie">
+                      <div className="movie__img--wrapper">
+                        <img src={movie.Poster} alt="" className="movie__img" />
+                      </div>
+                      <h3 className="movie__title">{movie.Title}</h3>
+                    </div>
+                  </div>
+                )))}
           </div>
           <div className="result__overlay--loading">
             <i className="fas fa-spinner"></i>
           </div>
         </div>
       </section>
-      <ContactModal isOpen={isContactModalOpen} closeModal={closeContactModal} />
+      <ContactModal
+        isOpen={isContactModalOpen}
+        closeModal={closeContactModal}
+      />
       <NavModal
         isOpen={isNavModalOpen}
         closeNavModal={closeNavModal}
