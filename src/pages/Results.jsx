@@ -15,18 +15,27 @@ const Results = ({
 }) => {
   const [loading, setLoading] = useState(false);
   const [movies, setMovies] = useState([]);
+  const [errorMessage, setErrorMessage] = useState([]);
   const searchInputRef = useRef();
   const filterInputRef = useRef();
   const navigate = useNavigate();
   const location = useLocation();
   //const { homeSearch } = location.state;
   //console.log({ homeSearch })
+
   let filter = "";
 
-  useEffect(() => {
-    
-  });
-  
+  const enterSearch =
+    '<h3 class="error__message too-many-results">Please enter something</h3>';
+
+  const tooManyResults =
+    '<h3 class="error__message too-many-results">Too many results, narrow your search please.</h3>';
+
+  const movieNotFound =
+    '<h3 class="error__message movie-not-found">Movie not found, try again.</h3>';
+
+  useEffect(() => {});
+
   function filterMovies() {
     if (filterInputRef.current.value === "movie") {
       filter = `&type=movie`;
@@ -51,9 +60,33 @@ const Results = ({
       `https://www.omdbapi.com/?i=tt3896198&apikey=f54b9d83&s=${movieSearch}` +
         `${filter}`
     );
+
     await setMovies(data.Search || []);
-    setLoading(false);
+    await setErrorMessage(data.Error);
+    await setLoading(false);
     console.log(movies);
+    console.log(errorMessage);
+  }
+
+  function rednerMovies(errorMessage, movies) {
+    if (errorMessage) {
+      return <h3 class="error__message">{errorMessage}</h3>;
+    } else {
+      return movies.map((movie) => (
+        <div
+          className="movie__wrapper"
+          key={movie.Id}
+          onClick={() => navigate(`${movie.imdbID}`)}
+        >
+          <div className="movie">
+            <div className="movie__img--wrapper">
+              <img src={movie.Poster} alt="" className="movie__img" />
+            </div>
+            <h3 className="movie__title">{movie.Title}</h3>
+          </div>
+        </div>
+      ));
+    }
   }
 
   return (
@@ -137,7 +170,9 @@ const Results = ({
           <div className="header__background"></div>
         </div>
         <div className="loading__bar">
-          {loading && (<div className="loading__bar--highlight loading__bar--highlight-right"></div>)}
+          {loading && (
+            <div className="loading__bar--highlight loading__bar--highlight-right"></div>
+          )}
         </div>
         <div className="container search__container">
           <div className="filter__row">
@@ -170,14 +205,16 @@ const Results = ({
           </div>
         </div>
         <div className="loading__bar">
-          {loading && (<div className="loading__bar--highlight loading__bar--highlight-left"></div>)}
+          {loading && (
+            <div className="loading__bar--highlight loading__bar--highlight-left"></div>
+          )}
         </div>
       </section>
       <section id="movie__results">
         <div className="result__row">
           <div className="movie__list">
             {loading
-              ? (new Array(10).fill(0).map((_, index) => (
+              ? new Array(10).fill(0).map((_, index) => (
                   <div className="movie__wrapper" key={index}>
                     <div className="movie">
                       <div className="movie__img--wrapper">
@@ -186,24 +223,8 @@ const Results = ({
                       <div className="movie__title--skeleton"></div>
                     </div>
                   </div>
-              )))
-              : (movies.map((movie) => (
-                  <div
-                    className="movie__wrapper"
-                    key={movie.Id}
-                    onClick={() => navigate(`${movie.imdbID}`)}
-                  >
-                    <div className="movie">
-                      <div className="movie__img--wrapper">
-                        <img src={movie.Poster} alt="" className="movie__img" />
-                      </div>
-                      <h3 className="movie__title">{movie.Title}</h3>
-                    </div>
-                  </div>
-                )))}
-          </div>
-          <div className="result__overlay--loading">
-            <i className="fas fa-spinner"></i>
+                ))
+              : rednerMovies(errorMessage, movies)}
           </div>
         </div>
       </section>
