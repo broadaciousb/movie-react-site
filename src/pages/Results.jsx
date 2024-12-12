@@ -34,7 +34,14 @@ const Results = ({
   const movieNotFound =
     '<h3 class="error__message movie-not-found">Movie not found, try again.</h3>';
 
-  useEffect(() => {});
+  useEffect(() => {
+    const searchQuery = location.state?.searchQuery;
+
+    if (searchQuery) {
+      searchInputRef.current.value = searchQuery;
+      fetchMovies(searchQuery);
+    }
+  }, []);
 
   function filterMovies() {
     if (filterInputRef.current.value === "movie") {
@@ -47,11 +54,11 @@ const Results = ({
       filter = ``;
     }
 
-    fetchMovies();
+    fetchMovies(searchInputRef.current.value);
   }
 
-  async function fetchMovies() {
-    const movieSearch = searchInputRef.current.value;
+  async function fetchMovies(searchQuery = null) {
+    const movieSearch = searchQuery || searchInputRef.current.value;
     if (!movieSearch) return;
 
     setLoading(true);

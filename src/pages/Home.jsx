@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import HomeCinema from "../assets/undraw_home_cinema_l7yl.svg";
 import ContactModal from "../ui/Contact-Modal.jsx";
@@ -9,10 +9,18 @@ import NavModal from "../ui/Nav-Modal.jsx";
 const Home = ({ isContactModalOpen, isNavModalOpen, openContactModal, closeContactModal, openNavModal, closeNavModal }) => {
 
   const homeSearch = useRef();
+  const navigate = useNavigate();
+  const handleSearch = () => {
+    if (homeSearch.current?.value) {
+      navigate("/results", {
+        state: { searchQuery: homeSearch.current.value }
+      });
+    }
+  };
   
   function onSearchKeyPress(key) {
     if (key === 'Enter') {
-      
+      handleSearch();
     }
   }
 
@@ -67,10 +75,10 @@ const Home = ({ isContactModalOpen, isNavModalOpen, openContactModal, closeConta
                 type="text"
                 placeholder="Find a good movie"
                 ref={homeSearch}
+                onKeyPress={event => onSearchKeyPress(event.key)}
               ></input>
-              <Link
-                to="/results"
-                state={{homeSearch: `${homeSearch}`}}
+              <button
+                onClick={handleSearch}
                 id="home-search__button"
                 className="search__btn"
               >
@@ -78,7 +86,7 @@ const Home = ({ isContactModalOpen, isNavModalOpen, openContactModal, closeConta
                   icon="magnifying-glass"
                   className="home__search--icon fa-solid fa-magnifying-glass"
                 />
-              </Link>
+              </button>
             </div>
             <div className="header__img--wrapper">
               <img className="header__img" src={HomeCinema} alt=""></img>
