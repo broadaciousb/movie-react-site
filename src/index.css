@@ -300,6 +300,12 @@ header {
   height: 70px;
 }
 
+.search__input:focus {
+  outline: none;
+  border-color:#fb6542;
+}
+
+
 .search__btn {
   display: flex;
   justify-content: center;
@@ -524,6 +530,11 @@ header {
   padding-left: 20px;
   border: none;
 }
+
+.search__header-input:focus {
+  outline: none;
+}
+
 
 .find__movies-search--icon {
   position: absolute;
