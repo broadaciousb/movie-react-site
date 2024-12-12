@@ -835,6 +835,7 @@ MOVIE RESULTS
 .selected-movie__info {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .selected-movie__title {
@@ -878,6 +879,22 @@ MOVIE RESULTS
 
 .selected-movie__back-btn:active {
   background-color: #fb6542;
+}
+
+.selected-movie__img--skeleton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50vw;
+  height: 50vh;
+  background-color: #375e97;
+}
+
+.selected-movie__detail--skeleton {
+  width: 100%;
+  height: 20px;
+  margin: 2vh 0;
+  background-color: #375e97;
 }
 
 
@@ -942,6 +959,11 @@ MOVIE RESULTS
   .selected-movie__back-btn {
     position: static;
     margin-bottom: 20px;
+  }
+
+  .selected-movie__img--skeleton {
+    height: 30vh;
+    width: 50vw;;
   }
 }
 

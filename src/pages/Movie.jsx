@@ -6,7 +6,7 @@ import { Link, useParams } from "react-router-dom";
 
 const Movie = () => {
   const [movieInfo, setMovieInfo] = useState([]);
-  const [loading, setLoading] = useState([true]);
+  const [loading, setLoading] = useState(true);
 
   const { id } = useParams();
 
@@ -19,6 +19,7 @@ const Movie = () => {
       );
 
       setMovieInfo(movieData.data);
+      setLoading(false);
     }
     fetchMovie();
   }, []);
@@ -26,38 +27,72 @@ const Movie = () => {
   console.log(movieInfo);
 
   return (
-    <div className="selected-movie__contaier">
-      <div className="selected-movie">
-        <figure className="selected-movie__img--wrapper">
-          <img src={movieInfo.Poster} alt="" className="selected-movie__img" />
-        </figure>
-        <div className="selected-movie__info">
-          <h2 className="selected-movie__title">{movieInfo.Title}</h2>
-          <h2 className="selected-movie__year movie-detail">
-            Year Released - <span className="deep-blue">{movieInfo.Year}</span>
-          </h2>
-          <h2 className="selected-movie__genre movie-detail">
-            Genre - <span className="deep-blue">{movieInfo.Genre}</span>
-          </h2>
-          <h2 className="selected-movie__director movie-detail">
-            Director - <span className="deep-blue">{movieInfo.Director}</span>
-          </h2>
-          <h2 className="selected-movie__writers movie-detail">
-            Writers - <span className="deep-blue">{movieInfo.Writer}</span>
-          </h2>
-          <h2 className="selected-movie__actors movie-detail">
-            Starring - <span className="deep-blue">{movieInfo.Actors}</span>
-          </h2>
-          <div className="selected-movie__plot">
-            <h2 className="selected-movie__actors movie-detail">Plot:</h2>
-            <p className="selected-movie__para">{movieInfo.Plot}</p>
+    <>
+      {loading ? (
+        <div className="selected-movie__contaier">
+          <div className="selected-movie">
+            <figure className="selected-movie__img--wrapper">
+              <div className="selected-movie__img--skeleton"></div>
+            </figure>
+            <div className="selected-movie__info">
+              <div className="selected-movie__detail--skeleton"></div>
+              <div className="selected-movie__detail--skeleton"></div>
+              <div className="selected-movie__detail--skeleton"></div>
+              <div className="selected-movie__detail--skeleton"></div>
+              <div className="selected-movie__detail--skeleton"></div>
+              <div className="selected-movie__detail--skeleton"></div>
+              <div className="selected-movie__detail--skeleton"></div>
+            </div>
           </div>
+          <Link to="/results">
+            <button className="selected-movie__back-btn">
+              Back To Results
+            </button>
+          </Link>
         </div>
-      </div>
-      <Link to='/results'>
-        <button className="selected-movie__back-btn">Back To Results</button>
-      </Link>
-    </div>
+      ) : (
+        <div className="selected-movie__contaier">
+          <div className="selected-movie">
+            <figure className="selected-movie__img--wrapper">
+              <img
+                src={movieInfo.Poster}
+                alt=""
+                className="selected-movie__img"
+              />
+            </figure>
+            <div className="selected-movie__info">
+              <h2 className="selected-movie__title">{movieInfo.Title}</h2>
+              <h2 className="selected-movie__year movie-detail">
+                Year Released -{" "}
+                <span className="deep-blue">{movieInfo.Year}</span>
+              </h2>
+              <h2 className="selected-movie__genre movie-detail">
+                Genre - <span className="deep-blue">{movieInfo.Genre}</span>
+              </h2>
+              <h2 className="selected-movie__director movie-detail">
+                Director -{" "}
+                <span className="deep-blue">{movieInfo.Director}</span>
+              </h2>
+              <h2 className="selected-movie__writers movie-detail">
+                Writers - <span className="deep-blue">{movieInfo.Writer}</span>
+              </h2>
+              <h2 className="selected-movie__actors movie-detail">
+                Starring - <span className="deep-blue">{movieInfo.Actors}</span>
+              </h2>
+              <div className="selected-movie__plot">
+                <h2 className="selected-movie__actors movie-detail">Plot:</h2>
+                <p className="selected-movie__para">{movieInfo.Plot}</p>
+              </div>
+            </div>
+          </div>
+          <Link to="/results">
+            <button className="selected-movie__back-btn">
+              Back To Results
+            </button>
+          </Link>
+        </div>
+      )}
+    </>
   );
 };
 
