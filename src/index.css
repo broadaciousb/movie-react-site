@@ -543,7 +543,13 @@ header {
 }
 
 .search__button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: #375e97;
+  border: none;
+  background-color: transparent;
+  font-size: 40px;
 }
 
 .search__button:hover {

@@ -58,9 +58,9 @@ const Results = ({
   }
 
   async function fetchMovies(searchQuery = null) {
-    const movieSearch = searchQuery || searchInputRef.current.value;
+    const movieSearch = searchInputRef.current.value || searchQuery;
     if (!movieSearch) return;
-
+    
     setLoading(true);
 
     const { data } = await axios.get(
@@ -160,8 +160,7 @@ const Results = ({
                 }}
               ></input>
               <div className="find__movies-search--icon">
-                <Link
-                  to=""
+                <button
                   className="search__button"
                   id="search__button"
                   onClick={fetchMovies}
@@ -170,7 +169,7 @@ const Results = ({
                     icon="magnifying-glass"
                     className="fa-solid fa-magnifying-glass"
                   />
-                </Link>
+                </button>
               </div>
             </div>
           </div>
